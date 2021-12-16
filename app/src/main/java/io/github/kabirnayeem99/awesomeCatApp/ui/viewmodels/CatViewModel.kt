@@ -23,9 +23,10 @@ class CatViewModel
 
     private var fetchCatFacts: Job? = null
 
-    fun getCatFacts() {
+    fun getCatFacts(shouldRefresh: Boolean = false) {
         fetchCatFacts?.cancel()
         fetchCatFacts = viewModelScope.launch {
+            getCatFactUseCase.configure(shouldRefresh)
             val factsRes: Resource<List<CatVo>> = getCatFactUseCase.getCatFacts()
             _uiState.update { it.copy(isLoading = true) }
             when (factsRes) {
@@ -64,4 +65,8 @@ class CatViewModel
         }
     }
 
+
+    fun refreshFactList() {
+        getCatFacts(true)
+    }
 }

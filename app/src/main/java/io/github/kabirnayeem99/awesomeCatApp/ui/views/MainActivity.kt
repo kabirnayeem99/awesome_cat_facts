@@ -34,9 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpViews() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setContentView(binding?.root)
         binding?.apply {
+            setContentView(root)
             viewModel = catViewModel
+            lifecycleOwner = this@MainActivity
             rvCatFacts.adapter = catItemAdapter
         }
     }

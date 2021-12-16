@@ -9,7 +9,7 @@ class GetCatFactUseCase @Inject constructor(private val catRepo: CatRepository) 
 
     var shouldRefresh: Boolean = false
 
-    suspend fun configure(shouldRefresh: Boolean = false) {
+    fun configure(shouldRefresh: Boolean = false) {
         this.shouldRefresh = shouldRefresh
     }
 

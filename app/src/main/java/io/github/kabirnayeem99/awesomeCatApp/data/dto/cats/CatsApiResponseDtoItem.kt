@@ -6,7 +6,7 @@ data class CatsApiResponseDtoItem(
     val createdAt: String,
     val deleted: Boolean,
     val source: String,
-    val status: Status,
+    val status: StatusDto,
     val text: String,
     val type: String,
     val updatedAt: String,

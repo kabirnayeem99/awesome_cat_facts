@@ -9,10 +9,12 @@ import io.github.kabirnayeem99.awesomeCatApp.common.constants.CATS_API_BASE_URL
 import io.github.kabirnayeem99.awesomeCatApp.common.utility.DispatcherProvider
 import io.github.kabirnayeem99.awesomeCatApp.data.dataSources.remoteDataSource.CatFactsApi
 import io.github.kabirnayeem99.awesomeCatApp.data.dataSources.remoteDataSource.CatRemoteDataSource
-import io.github.kabirnayeem99.awesomeCatApp.domain.repositories.CatRepository
 import io.github.kabirnayeem99.awesomeCatApp.data.repositories.DefaultCatRepository
+import io.github.kabirnayeem99.awesomeCatApp.domain.repositories.CatRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -67,12 +69,17 @@ object AppModule {
             get() = Dispatchers.Unconfined
     }
 
+    @Provides
+    fun provideCoroutineScope(dispatcher: DispatcherProvider): CoroutineScope {
+        return CoroutineScope(SupervisorJob() + dispatcher.default)
+    }
+
     @Singleton
     @Provides
     fun provideCatRepository(
         remoteDataSource: CatRemoteDataSource,
-        dispatcher: DispatcherProvider
+        externalScope: CoroutineScope
     ): CatRepository {
-        return DefaultCatRepository(remoteDataSource, dispatcher)
+        return DefaultCatRepository(remoteDataSource, externalScope)
     }
 }

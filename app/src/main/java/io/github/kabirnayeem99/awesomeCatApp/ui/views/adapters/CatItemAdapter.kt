@@ -12,7 +12,6 @@ class CatItemAdapter : RecyclerView.Adapter<CatItemAdapter.CatViewHolder>() {
 
     fun submitCatFactList(facts: List<CatVo>) = differ.submitList(facts)
 
-
     class CatViewHolder(private val binding: ListItemCatBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
